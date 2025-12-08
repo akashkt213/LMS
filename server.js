@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
+import booksRoutes from './routes/booksRoutes.js'
 
 
 dotenv.config();
@@ -16,6 +17,7 @@ mongoose
   .catch((err) => console.error(err));
 
 app.use("/api/users", userRoutes);
+app.use("/api/books", booksRoutes);
 
 
 app.listen(process.env.PORT, () => {
