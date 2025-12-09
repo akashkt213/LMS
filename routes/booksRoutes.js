@@ -1,8 +1,10 @@
 import express from "express";
 import Book from "../models/books.model.js";
+import auth from '../middlewares/auth.middleware.js'
+import authorizeRole from "../middlewares/authorize.middleware.js";
 
 const router = express.Router();
-router.post("/book", async (req, res) => {
+router.post("/book",auth,authorizeRole(0), async (req, res) => {
   try {
     const { title, author, ISBN, publication_date, genre, number_of_books } =
       req.body;
@@ -69,7 +71,7 @@ router.delete("/book/:id", async (req, res) => {
   }
 });
 
-router.get("/book", async (req, res) => {
+router.get("/book",auth, async (req, res) => {
   try {
     const { search } = req.query;
 
