@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
 import booksRoutes from './routes/booksRoutes.js'
-import borrowRoutes from './routes/borrowRoutes.js'
+import borrowingRoutes from './routes/borrowingRoutes.js'
 
 
 dotenv.config();
@@ -19,7 +19,7 @@ mongoose
 
 app.use("/api/users", userRoutes);
 app.use("/api/books", booksRoutes);
-app.use("/api/borrow", borrowRoutes);
+app.use("/api/borrow", borrowingRoutes);
 
 
 app.listen(process.env.PORT, () => {

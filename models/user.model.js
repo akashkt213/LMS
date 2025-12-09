@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
     enum: [0, 1],
     required: true,
   },
-  borrowedBooks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
   createdAt: {
     type: Date,
     default: Date.now,
