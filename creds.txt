@@ -1,3 +1,0 @@
-akashkt213_db_user
-tunHY6x8agCA5yib
-mongodb+srv://akashkt213_db_user:<tunHY6x8agCA5yib>@lms.jiwkd7y.mongodb.net/?appName=LMS
