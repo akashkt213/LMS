@@ -71,7 +71,7 @@ router.delete("/book/:id", auth, authorizeRole(0), async (req, res) => {
   }
 });
 
-router.get("/book", auth, authorizeRole(0), async (req, res) => {
+router.get("/book", auth, async (req, res) => {
   try {
     const { search } = req.query;
 
