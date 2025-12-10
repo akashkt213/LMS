@@ -20,7 +20,7 @@ router.post("/borrow", auth, async (req, res) => {
       return res.status(404).json({ error: "Book not found" });
     }
 
-    if (book.number_of_books <= 0) {
+    if (book.available_books_for_borrowing <= 0) {
       return res.status(400).json({ error: "Book not available" });
     }
     const currUser = await User.findById(user);
@@ -36,7 +36,7 @@ router.post("/borrow", auth, async (req, res) => {
     });
 
     if (borrowedBook) {
-      book.number_of_books -= 1;
+      book.available_books_for_borrowing -= 1;
       await book.save();
     }
 
@@ -76,7 +76,7 @@ router.post("/return", auth, async (req, res) => {
     );
 
     if (returnedBook) {
-      book.number_of_books += 1;
+      book.available_books_for_borrowing += 1;
       await book.save();
     }
 
@@ -123,6 +123,38 @@ router.get("/current_borrowings/:user_id", auth, async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({ statusCode: 400, message: error.message });
+  }
+});
+
+router.get("/history/:user_id", auth, async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    if (!user_id) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "Please provide user id",
+      });
+    }
+
+    const curr_borrowings = await Borrowing.find({
+      user: user_id,
+    }).populate("book");
+
+    // console.log(curr_borrowings);
+    const borrowingHistory = curr_borrowings.map((record) => {
+      return {
+        borrowRecordId: record._id,
+        bookId: record.book._id,
+        title: record.book.title,
+        author: record.book.author,
+        borrowDate: record.borrowDate,
+        returnDate: record.returnDate,
+        status: record.status,
+      };
+    });
+    res.status(200).json({ statusCode: 200, data: borrowingHistory });
+  } catch (error) {
+    res.status(400).json({ statusCode: 400, data: error.message });
   }
 });
 
