@@ -124,4 +124,15 @@ router.get("/current_records", auth, authorizeRole(0), async (req, res) => {
   }
 });
 
+// aggregate exercise: 2
+router.get("/genre_count", async (req, res) => {
+  try {
+    const result = await Book.aggregate([
+      { $group: { _id: "$genre", count: { $sum: 1 } } },
+    ]);
+
+    res.status(200).json({ status_code: 200, data: result });
+  } catch (error) {}
+});
+
 export default router;
